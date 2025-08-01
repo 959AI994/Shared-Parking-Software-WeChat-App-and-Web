@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lbk.sharper.mapper.ParkingInfoMapper">
+    <select id="findRemainingSpace" resultType="com.lbk.sharper.res.RemainingSpaceVo">
+        SELECT
+        pk.*,
+        COUNT( ps.isTakeUp ) AS remainingSpace
+        FROM
+        parkinginfo pk,
+        parkingspace ps
+        WHERE
+        pk.parkingInfoId = ps.parkingInfoId
+        AND ps.shareEndTime > now()
+        and ps.state='共享中'
+        AND ps.isTakeUp = 0
+        <if test="dto.villageName!= null and dto.villageName != ''">
+            and pk.villageName LIKE "%"#{dto.villageName}"%"
+        </if>
+        GROUP BY
+        pk.parkingInfoId
+    </select>
+
+
+    <select id="getListMap" resultType="com.lbk.sharper.wx.res.ParkingInfoVoWx">
+        SELECT pk.parkingInfoId,
+               pk.villageName,
+               pk.longitude,
+               pk.latitude,
+               ps.isTakeUp,
+               ps.state
+        FROM parkinginfo pk
+                 INNER JOIN parkingspace ps ON pk.parkingInfoId = ps.parkingInfoId
+            AND pk.state = '正常'
+    </select>
+
+
+</mapper>

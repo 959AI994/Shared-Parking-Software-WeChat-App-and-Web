@@ -1,0 +1,197 @@
+/*@charset "UTF-8";*/
+/*flex布局*/
+.row-flex, .flex {
+    display: flex;
+    flex-flow: row nowrap;
+}
+/******************************************** flex-direction 属性决定主轴的方向（即项目的排列方向） ********************************************/
+/*默认值，主轴为水平方向，起点在左端*/
+.row-flex-direction-row, .flex-direction-row {
+    flex-direction: row;
+}
+/*主轴为水平方向，起点在右端*/
+.row-flex-direction-row-reverse, .flex-direction-row-reverse {
+    flex-direction: row-reverse;
+}
+/*主轴为垂直方向，起点在上沿*/
+.row-flex-direction-column, .flex-direction-column {
+    flex-direction: column;
+}
+/*主轴为垂直方向，起点在下沿*/
+.row-flex-direction-column-reverse, .flex-direction-column-reverse {
+    flex-direction: column-reverse;
+}
+/******************************************** flex-wrap 属性定义换行 ********************************************/
+/*默认值，不换行*/
+.row-flex-nowrap, .flex-nowrap {
+    flex-wrap: nowrap;
+}
+/*换行，第一行在上方*/
+.row-flex-wrap, .flex-wrap {
+    flex-wrap: wrap;
+}
+/*换行，第一行在下方*/
+.row-flex-wrap-reverse, .flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
+}
+/*flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap*/
+/*.row-flex-flow { flex-flow: row wrap; }*/
+/******************************************** justify-content 定义了项目在主轴上的对齐方式 ********************************************/
+/*默认值，左对齐*/
+.row-flex-justify-content-flex-start, .flex-start {
+    justify-content: flex-start;
+}
+/*居中*/
+.row-flex-justify-content-center, .flex-center {
+    justify-content: center;
+
+}
+/*右对齐*/
+.row-flex-justify-content-flex-end, .flex-end {
+    justify-content: flex-end;
+}
+/*每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍*/
+.row-flex-justify-content-space-around, .flex-around {
+    justify-content: space-around;
+}
+/*两端对齐，项目之间的间隔都相等*/
+.row-flex-justify-content-space-between, .flex-between {
+    justify-content: space-between;
+}
+/******************************************** align-items 定义项目在交叉轴上如何对齐 ********************************************/
+/*交叉轴的起点对齐*/
+.row-flex-align-items-flex-start, .flex-top {
+    align-items: flex-start;
+}
+/*交叉轴的中点对齐*/
+.row-flex-align-items-center, .flex-middle {
+    align-items: center;
+}
+/*交叉轴的终点对齐*/
+.row-flex-align-items-flex-end, .flex-bottom {
+    align-items: flex-end;
+}
+/*默认值，未设置高度或设为auto，将占满整个容器的高度*/
+.row-flex-align-items-stretch, .flex-stretch {
+    align-items: stretch;
+}
+/*项目的第一行文字的基线对齐*/
+.row-flex-align-items-baseline, .flex-baseline {
+    align-items: baseline;
+}
+/******************************************** align-content 定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用 ********************************************/
+/*与交叉轴的起点对齐*/
+.row-flex-align-content-flex-start {
+    align-content: flex-start;
+}
+/*与交叉轴的中点对齐*/
+.row-flex-align-content-center {
+    align-content: center;
+}
+/*与交叉轴的终点对齐*/
+.row-flex-align-content-flex-end {
+    align-content: flex-end;
+}
+/*每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍*/
+.row-flex-align-content-space-around {
+    align-content: space-around;
+}
+/*与交叉轴两端对齐，轴线之间的间隔平均分布*/
+.row-flex-align-content-space-between {
+    align-content: space-between;
+}
+/*默认值，轴线占满整个交叉轴*/
+.row-flex-align-content-stretch {
+    align-content: stretch;
+}
+/******************************************** 项目的排列顺序。数值越小，排列越靠前，默认为0 ********************************************/
+.row-flex-item-order-1 {
+    order: 1;
+}
+
+.row-flex-item-order-2 {
+    order: 2;
+}
+
+.row-flex-item-order-3 {
+    order: 3;
+}
+
+.row-flex-item-order-4 {
+    order: 4;
+}
+
+.row-flex-item-order-5 {
+    order: 5;
+}
+
+.row-flex-item-order-6 {
+    order: 6;
+}
+
+.row-flex-item-order-7 {
+    order: 7;
+}
+
+.row-flex-item-order-8 {
+    order: 8;
+}
+
+.row-flex-item-order-9 {
+    order: 9;
+}
+
+.row-flex-item-order-10 {
+    order: 10;
+}
+
+.row-flex-item-order-11 {
+    order: 11;
+}
+
+.row-flex-item-order-12 {
+    order: 12;
+}
+/******************************************** 子项目的排列顺序。数值越小，排列越靠前，默认为0 ********************************************/
+/*
+//flex-grow   属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大
+//flex-shrink 属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小
+//flex-basis  属性定义了在分配多余空间之前，项目占据的主轴空间
+//*/
+/*
+.row-flex-item-flex-grow{ flex-grow: 0;}
+.row-flex-item-flex-shrink{ flex-shrink: 1;}
+.row-flex-item-flex-basis{ flex-basis: auto;}
+*/
+/*flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选 该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)*/
+.row-flex-item-flex-auto {
+    flex: auto;
+}
+
+.row-flex-item-flex-none {
+    flex: none;
+}
+/*允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch*/
+.row-flex-item-align-self-flex-start {
+    align-self: flex-start;
+}
+
+.row-flex-item-align-self-flex-end {
+    align-self: flex-end;
+}
+
+.row-flex-item-align-self-center {
+    align-self: center;
+}
+
+.row-flex-item-align-self-baseline {
+    align-self: baseline;
+}
+
+.row-flex-item-align-self-stretch {
+    align-self: stretch;
+}
+
+.flex-1 {
+    flex: 1;
+}

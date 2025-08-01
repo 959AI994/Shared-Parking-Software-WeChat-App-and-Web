@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/parkfinder/index",
+    "pages/order/index",
+    "pages/my/index",
+    "pages/parkfinder/bookingSpace",
+    "pages/parkfinder/reserveSuccess",
+    "pages/mobilePayment/mobilePayment",
+    "pages/login/login",
+    "pages/maps/mapIdex",
+    "pages/parkfinder/prkingSpaceList",
+    "pages/toApplyForOwner/toApplyForOwner",
+    "pages/setShareTime/setShareTime",
+    "pages/shared_records/shared_records",
+    "pages/orderSettlement/orderSettlement",
+    "pages/showQrcode/showQrcode",
+    "pages/myParkingSpace/myParkingSpace",
+    "pages/perfectUserInfo/perfectUserInfo",
+    "pages/copyPage/copyPage",
+    "pages/feedBack/feedBack"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#007AFF",
+    "borderStyle": "black",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/parkfinder/index",
+        "iconPath": "static/parkfinder.png",
+        "selectedIconPath": "static/parkfinderHL.png",
+        "text": "找车位"
+      },
+      {
+        "pagePath": "pages/order/index",
+        "iconPath": "static/component.png",
+        "selectedIconPath": "static/componentHL.png",
+        "text": "共享预约"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/extui.png",
+        "selectedIconPath": "static/extuiHL.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序将使用定位功能"
+    }
+  },
+  "usingComponents": {}
+}

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lbk.sharper.mapper.ParkingOrderMapper">
+    <select id="getParkingReservationListPage"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT pr.*, pk.villageName,  ps.parkingSpaceNumber,  n.nickName,n.phone,n.carNumber
+        FROM parkinginfo pk ,parkingspace ps , parking_order pr, normaluser n
+        WHERE pk.parkingInfoId=ps.parkingInfoId
+          and ps.parkingSpaceId =pr.parkingSpaceId
+          and n.openId= pr.openId
+        <if test="dto.villageName!= null and dto.villageName != ''">
+            and pk.villageName  LIKE "%"#{dto.villageName}"%"
+        </if>
+        <if test="dto.carNumber != null and dto.carNumber != ''">
+            and n.carNumber = #{dto.carNumber}
+        </if>
+        <if test="dto.orderId != null and dto.orderId != ''">
+            and pr.orderId = #{dto.orderId}
+        </if>
+        <if test="dto.parkingSpaceNumber != null and dto.parkingSpaceNumber != ''">
+            and ps.parkingSpaceNumber = #{dto.parkingSpaceNumber}
+        </if>
+        <if test="dto.state != null and dto.state != ''">
+            and pr.state = #{dto.state}
+        </if>
+        <if test="dto.nickName != null and dto.nickName != ''">
+            and n.nickName = #{dto.nickName}
+        </if>
+        <if test="dto.phone != null and dto.phone != ''">
+            and n.phone = #{dto.phone}
+        </if>
+        ORDER BY pr.createTime DESC
+    </select>
+
+    <select id="findMyReservation" parameterType="String"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT pr.*,pk.villageName,pk.province,pk.city,pk.area,pk.address,ps.parkingSpaceNumber,pk.longitude,pk.latitude
+        FROM parkinginfo pk ,parkingspace ps , parking_order pr
+        WHERE pk.parkingInfoId=ps.parkingInfoId
+            and ps.parkingSpaceId =pr.parkingSpaceId
+            and pr.openId=#{openId}
+        ORDER BY pr.createTime desc
+    </select>
+
+    <select id="findMyForReservation" parameterType="String"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT pr.*,pk.villageName,pk.province,pk.city,pk.area,pk.address,ps.parkingSpaceNumber,pk.longitude,pk.latitude
+        FROM parkinginfo pk ,parkingspace ps , parking_order pr
+        WHERE pk.parkingInfoId=ps.parkingInfoId
+          and ps.parkingSpaceId =pr.parkingSpaceId
+          and pr.state='进行中'
+          and pr.openId=#{openId}
+        ORDER BY pr.createTime desc
+    </select>
+
+    <select id="findMyFinishReservation" parameterType="String"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT pr.*,pk.villageName,pk.province,pk.city,pk.area,pk.address,ps.parkingSpaceNumber,pk.longitude,pk.latitude
+        FROM parkinginfo pk ,parkingspace ps , parking_order pr
+        WHERE pk.parkingInfoId=ps.parkingInfoId
+          and ps.parkingSpaceId =pr.parkingSpaceId
+          and pr.state='已完成'
+          and pr.openId=#{openId}
+        ORDER BY pr.createTime desc
+    </select>
+
+    <select id="getOrderInfo" parameterType="String"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT
+            po.*,
+            ps.* ,
+            pk.villageName,pk.province,pk.city,pk.area,pk.address
+        FROM
+            parkinginfo pk,
+            parking_order po,
+            parkingspace ps
+        WHERE
+            pk.parkingInfoId=ps.parkingInfoId
+          AND
+            po.parkingSpaceId = ps.parkingSpaceId
+          AND po.orderId=#{orderId}
+    </select>
+
+
+    <select id="iSharedRecords" parameterType="String"  resultType="com.lbk.sharper.res.ResParkingOrderVO">
+        SELECT
+            po.*, n.nickName
+        FROM
+            parking_order po  ,normaluser n
+        WHERE
+            po.openId=n.openId and
+                po.parkingSpaceId = (
+                SELECT
+                    ps.parkingSpaceId
+                FROM
+                    parkingspace ps,
+                    ownerauth o,
+                    normaluser n
+                WHERE
+                    o.openId = n.openId
+                  AND ps.ownerAuthId = o.ownerAuthId
+                  AND n.openId=#{orderId}
+            )
+
+    </select>
+
+
+    <select id="incomeStatement"   resultType="com.lbk.sharper.res.ResReportVo">
+        SELECT YEAR
+            ( createTime ) 年,
+            MONTH ( createTime ) months,
+            Round(SUM( paymentAmount ),2) outcome
+        FROM
+            parking_order
+        WHERE
+            YEAR ( createTime )=#{vo.year}
+        <if test="vo.parkingId!= null and vo.parkingId != ''">
+            AND parkingSpaceId IN ( SELECT ps.parkingSpaceId FROM parkinginfo pi, parkingspace ps WHERE pi.parkingInfoId = ps.parkingInfoId AND pi.parkingInfoId = #{vo.parkingId})
+        </if>
+
+        GROUP BY
+            YEAR ( createTime ),
+            MONTH ( createTime )
+
+    </select>
+
+    <select id="orderReport"   resultType="com.lbk.sharper.res.ResOrderReportVo">
+        SELECT YEAR
+        ( createTime ) 年,
+        MONTH ( createTime ) months,
+        COUNT( orderId ) numbers
+        FROM
+        parking_order
+        WHERE
+        YEAR ( createTime )= #{vo.year}
+        <if test="vo.parkingId!= null and vo.parkingId != ''">
+            AND parkingSpaceId IN ( SELECT ps.parkingSpaceId FROM parkinginfo pi, parkingspace ps WHERE pi.parkingInfoId = ps.parkingInfoId AND pi.parkingInfoId = #{vo.parkingId})
+        </if>
+
+        GROUP BY
+        YEAR ( createTime ),
+        MONTH ( createTime )
+
+    </select>
+
+
+</mapper>

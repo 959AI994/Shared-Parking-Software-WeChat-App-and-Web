@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lbk.sharper.mapper.ParkingSpaceMapper">
+
+    <select id="findSpaceServiceByIdList" parameterType="integer" resultType="com.lbk.sharper.res.ResParkingSpaceVo">
+        SELECT *
+        from parkingspace ps , parkinginfo  pi
+        WHERE ps.parkingInfoId =pi.parkingInfoId
+            and ps.isTakeUp=0
+            and ps.state="共享中"
+            and ps.shareEndTime>now()
+            and  pi.parkingInfoId= #{id}
+    </select>
+
+    <select id="findSpaceServiceById" parameterType="integer" resultType="com.lbk.sharper.res.ResParkingSpaceVo">
+        SELECT *
+        from parkingspace ps , parkinginfo  pi
+        WHERE ps.parkingInfoId =pi.parkingInfoId
+        and  ps.parkingspaceId= #{id}
+    </select>
+
+    <update id="updateParkingReservationState" parameterType="integer">
+        UPDATE  parkingspace set isTakeUp=1
+        WHERE parkingSpaceId=#{id}
+
+    </update>
+
+    <select id="getParkingSpaceListPage" resultType="com.lbk.sharper.res.ResParkingSpaceVo">
+        SELECT pk.villageName,ps.*,o.ownerName
+        FROM parkinginfo pk ,parkingspace ps , ownerauth o
+        WHERE pk.parkingInfoId=ps.parkingInfoId
+          and ps.ownerAuthId=o.ownerAuthId
+        <if test="dto.ownerName!= null and dto.ownerName != ''">
+            and o.ownerName  LIKE "%"#{dto.ownerName}"%"
+        </if>
+        <if test="dto.villageName!= null and dto.villageName != ''">
+            and pk.villageName  LIKE "%"#{dto.villageName}"%"
+        </if>
+        <if test="dto.isTakeUp != null">
+            and ps.isTakeUp = #{dto.isTakeUp}
+        </if>
+        <if test="dto.state != null and dto.state != ''">
+            and ps.state = #{dto.state}
+        </if>
+        <if test="dto.parkingSpaceNumber != null and dto.parkingSpaceNumber != ''">
+            and ps.parkingSpaceNumber = #{dto.parkingSpaceNumber}
+        </if>
+    </select>
+
+    <select id="getMyParkingSpace" parameterType="string" resultType="com.lbk.sharper.res.ResParkingSpaceVo">
+        SELECT
+            ps.*,
+            pk.villageName
+        FROM
+            parkingspace ps,
+            ownerauth o,
+            normaluser n,
+            parkinginfo pk
+        WHERE
+            o.openId = n.openId
+          AND pk.parkingInfoId = ps.parkingInfoId
+          AND ps.ownerAuthId = o.ownerAuthId
+          AND o.state='正常'
+          AND n.openId =#{openID}
+    </select>
+
+    <select id="getMyParkingSpaceList" parameterType="string" resultType="com.lbk.sharper.res.ResParkingSpaceVo">
+        SELECT ps.* ,pk.villageName from parkingspace ps, ownerauth o, normaluser n,parkinginfo pk
+        WHERE o.openId=n.openId
+          and pk.parkingInfoId=ps.parkingInfoId
+          and ps.ownerAuthId=o.ownerAuthId
+          and n.openId=#{openID}
+    </select>
+
+    <select id="checkOff" resultType="com.lbk.sharper.entity.ParkingSpace">
+        SELECT *
+        FROM parkingspace p
+        WHERE p.state='共享中'
+        and p.isTakeUp=0
+        and p.shareEndTime &lt; NOW()
+    </select>
+
+    <select id="getOpenIdBySpaceId" resultType="string">
+        SELECT
+            n.openId
+        FROM normaluser n, ownerauth o,parkingspace ps
+        WHERE o.openId =n.openId
+          and  o.ownerAuthId=ps.ownerAuthId
+          and ps.parkingSpaceId=#{parkingSpaceId}
+    </select>
+
+
+</mapper>

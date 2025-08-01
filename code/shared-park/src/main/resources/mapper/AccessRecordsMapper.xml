@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lbk.sharper.mapper.AccessRecordsMapper">
+
+
+    <select id="getAccessListPage"  resultType="com.lbk.sharper.res.ResAccessRecordsVo">
+        SELECT ar.*,pk.villageName
+        from access_records ar,parkinginfo pk
+        WHERE pk.parkingInfoId=ar.parkingInfoId
+        <if test="dto.villageName!= null and dto.villageName != ''">
+            and pk.villageName  LIKE "%"#{dto.villageName}"%"
+        </if>
+        <if test="dto.carNumber != null and dto.carNumber != ''">
+            and ar.carNumber = #{dto.carNumber}
+        </if>
+        <if test="dto.state != null and dto.state != ''">
+            and ar.state = #{dto.state}
+        </if>
+        <if test="dto.type != null and dto.type != ''">
+            and ar.type = #{dto.type}
+        </if>
+        <if test="dto.approachTime != null">
+            and ar.approachTime = #{dto.approachTime}
+        </if>
+        <if test="dto.playingTime != null">
+            and ar.playingTime = #{dto.playingTime}
+        </if>
+
+    </select>
+
+
+</mapper>

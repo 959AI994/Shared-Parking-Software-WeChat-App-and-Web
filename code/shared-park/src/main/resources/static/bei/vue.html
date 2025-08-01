@@ -1,0 +1,38 @@
+<el-table-column align="center" label="车位号" width="95">
+    <template slot-scope="scope">
+        {{ scope.row.parkingSpaceNumber }}
+    </template>
+</el-table-column>
+<el-table-column label="小区名称" width="200" align="center">
+    <template slot-scope="scope">
+        {{ scope.row.villageName }}
+    </template>
+</el-table-column>
+<el-table-column label="业主名称" width="200" align="center">
+    <template slot-scope="scope">
+        {{ scope.row.ownerName }}
+    </template>
+</el-table-column>
+
+<el-table-column label="状态" width="110" align="center">
+    <template slot-scope="scope">
+        <span>{{ scope.row.isTakeUp }}/小时</span>
+    </template>
+</el-table-column>
+
+<el-table-column label="开始共享时间" width="180" align="center">
+    <template slot-scope="scope">
+        {{ scope.row.shareStartTime }}
+    </template>
+</el-table-column>
+<el-table-column label="结束共享时间" width="180" align="center">
+    <template slot-scope="scope">
+        {{ scope.row.shareEndTime }}
+    </template>
+</el-table-column>
+<el-table-column label="价钱" width="100" align="center">
+    <template slot-scope="scope"> {{ scope.row.price }}/元 </template>
+</el-table-column>
+
+
+import { getParkingSpaceList } from "@/api/parkingSpace";
